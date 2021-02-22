@@ -31,12 +31,12 @@ exports.login = (req, res, next) => {
   })
     .then(user => {
       if (!user) {
-        return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+        return res.status(200).json({ errors: 'Email inconnu' })
       }
       bcrypt.compare(req.body.password, user.password)
         .then(valid => {
           if (!valid) {
-            return res.status(401).json({ error: 'Le mot de passe est incorrect !' });
+            return res.status(200).json({ errors: 'Le mot de passe est incorrect !' });
           }
           res.status(200).json({
             userId: user.id,
@@ -48,9 +48,7 @@ exports.login = (req, res, next) => {
             )
           });
         })
-        .catch(error => res.status(500).json({ error: "Une erreur provenant du mot de passe est survenue", content: error }));
-    })
-    .catch(error => res.status(500).json({ error: "Une erreur provenant de l'email est survenue", content: error }));
+    }).catch(error => res.status(400).json({ error: "Une erreur est survenue" }));
 };
 
 //Consultation du profil d'un User

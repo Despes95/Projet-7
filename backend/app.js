@@ -4,6 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
+//const cors = require("./middleware/cors")
+const cors = require('cors');
 
 //Routes
 const db = require('./config/dbSql')
@@ -19,14 +21,21 @@ db.sequelize.sync({/*force:true*/ }).then(() => {
 }); //synchronisation de la BDD et remise à 0
 
 //Securité
-const cors = require("./middleware/cors")
-//helmet
+
+const corsOptions = {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+    'allowedHeaders': ['sessionId', 'Content-Type'],
+    'exposedHeaders': ['sessionId'],
+    'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    'preflightContinue': false
+  }
+  app.use(cors(corsOptions));
 //validate
 
 // app.use
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cors);
 //helmet
 //validate
 //Gestion image
