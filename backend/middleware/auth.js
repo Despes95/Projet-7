@@ -6,7 +6,11 @@ require('dotenv').config()
 //Sécurisation des données utilisateurs avec un token
 module.exports = (req, res, next) => {
   try {
+
+    //const token = req.headers["x-access-token"];
     const token = req.headers.authorization.split(' ')[1];
+    console.log(token)
+
     const decodedToken = jwt.verify(token, process.env.TOKEN);
     const userId = decodedToken.userId;
     const isAdmin= decodedToken.isAdmin;

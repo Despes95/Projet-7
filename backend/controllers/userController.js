@@ -15,7 +15,7 @@ exports.signup = (req, res, next) => {
         pseudo: req.body.pseudo,
         email: req.body.email,
         password: hash,
-        poste: req.body.poste,
+        //poste: req.body.poste,
       })
         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
         .catch(error => res.status(400).json({ error: "Une erreur est survenue dans la création d'un nouveau compte utilisateur" }));
@@ -31,25 +31,63 @@ exports.login = (req, res, next) => {
   })
     .then(user => {
       if (!user) {
-        return res.status(200).json({ errors: 'Email inconnu' })
+        return res.status(200).send({ errors: 'Email incorrect' })
       }
       bcrypt.compare(req.body.password, user.password)
         .then(valid => {
           if (!valid) {
             return res.status(200).json({ errors: 'Le mot de passe est incorrect !' });
           }
+          //res.cookie('jwt', token, { httpOnly: true, maxAge });
           res.status(200).json({
             userId: user.id,
             isAdmin: user.isAdmin,
+            pseudo: user.pseudo,
             token: jwt.sign(
-              { userId: user.id, email: user.email, isAdmin: user.isAdmin },
+              { userId: user.id, email: user.email, isAdmin: user.isAdmin, pseudo: user.pseudo },
               process.env.TOKEN,
               { expiresIn: '12h' }
             )
           });
         })
+
     }).catch(error => res.status(400).json({ error: "Une erreur est survenue" }));
 };
+
+
+/* exports.login = async (req, res) => {
+  try {
+    User.findOne({
+      where: { email: xss(req.body.email) }
+    })
+      .then(user => {
+        if (!user) {
+          return res.status(200).send({ errors: 'Email incorrect' })
+        }
+        bcrypt.compare(req.body.password, user.password)
+          .then(valid => {
+            if (!valid) {
+              return res.status(200).json({ errors: 'Le mot de passe est incorrect !' });
+            }
+            const token = createToken(req.body.userId);
+            res.cookie('jwt', token, { httpOnly: true, maxAge });
+            res.status(200).json({
+              userId: user.id,
+              isAdmin: user.isAdmin,
+              token: jwt.sign(
+                { userId: user.id, email: user.email, isAdmin: user.isAdmin },
+                process.env.TOKEN,
+                { expiresIn: '12h' }
+              )
+            });
+          })
+      }).catch(error => res.status(400).json({ error: "Une erreur est survenue" }));
+  } catch (err) {
+    const errors = signInErrors(err);
+    res.status(200).json({ errors });
+  }
+} */
+
 
 //Consultation du profil d'un User
 exports.getOneUser = (req, res, next) => {

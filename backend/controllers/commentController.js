@@ -18,7 +18,6 @@ exports.createComment = (req, res, next) => {
 exports.readOneComment = (req, res, next) => {
     Comment.findOne({
         where: { id: req.params.id },
-        //attributes: ['id', 'userId', 'postId', 'content','createdAt', 'updatedAt'],
         include: [{
             model: User,
             attributes: ['pseudo'],
@@ -34,7 +33,6 @@ exports.readAllComments = (req, res, next) => {
     Comment.findAll({
         where: { postId: req.params.postId },
         order: [['createdAt', 'DESC']], //affichage des commentaires par ordre décroissant
-        //attributes: ['id', 'userId', 'postId', 'content', 'isSignaled', 'createdAt', 'updatedAt'],
         include: [{
             model: User,
             attributes: ['pseudo'],
