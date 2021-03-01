@@ -17,20 +17,27 @@ const commentRoutes = require('./routes/comment.routes');
 
 //Partie sequelize
 db.sequelize.sync({/*force:true*/ }).then(() => {
-    console.log("database connected");
+  console.log("database connected");
 }); //synchronisation de la BDD et remise à 0
 
 //Securité
+/* const corsOptions = {
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+  'allowedHeaders': 'Content-Type',
+  'Access-Control-Allow-Headers': 'x-access-token',
+  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  'preflightContinue': false
+}
+app.use(cors(corsOptions)); */
 
-const corsOptions = {
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-    'allowedHeaders': ['sessionId', 'Content-Type'],
-    'exposedHeaders': ['sessionId'],
-    'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    'preflightContinue': false
-  }
-  app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+});
+  
 //validate
 
 // app.use
