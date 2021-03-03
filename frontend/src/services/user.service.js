@@ -15,13 +15,10 @@ const getAllPosts = () => {
   return axios.get(API_URL + "posts", { headers: authHeader() });
 };
 
-const getAdminBoard = () => {
-  return axios.get(API_URL + "admin", { headers: authHeader() });
-};
+
 
 export default {
   getPublicContent,
   getUserBoard,
   getAllPosts,
-  getAdminBoard,
 };

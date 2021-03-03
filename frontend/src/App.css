@@ -30,3 +30,13 @@ label {
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
+
+.card-deck {
+  margin-bottom: 20px;
+}
+
+#vertical {
+  margin-bottom: -55px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}

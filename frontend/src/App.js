@@ -5,11 +5,16 @@ import "./App.css";
 
 import AuthService from "./services/auth.service";
 
+import Home from "./components/Home";
+import HomeComments from "./components/HomeComments";
+import Posts from "./components/Posts";
+import AddPosts from "./components/AddPosts";
+import Comments from "./components/Comments";
+import AddComments from "./components/AddComments"
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Home from "./components/Home";
 import Profile from "./components/Profile";
-import BoardUser from "./components/BoardUser";
+
 //import BoardModerator from "./components/BoardModerator";
 //import BoardAdmin from "./components/BoardAdmin";
 
@@ -36,7 +41,7 @@ const App = () => {
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <Link to={"/"} className="navbar-brand">
-          bezKoder
+          Groupomania
         </Link>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
@@ -44,32 +49,14 @@ const App = () => {
               Home
             </Link>
           </li>
-
-          {/* {showModeratorBoard && (
-            <li className="nav-item">
-              <Link to={"/mod"} className="nav-link">
-                Moderator Board
-              </Link>
-            </li>
-          )}
-
-          {showAdminBoard && (
-            <li className="nav-item">
-              <Link to={"/admin"} className="nav-link">
-                Admin Board
-              </Link>
-            </li>
-          )} */}
-
           {currentUser && (
             <li className="nav-item">
-              <Link to={"/user"} className="nav-link">
-                User
+              <Link to={"/profile"} className="nav-link">
+                Profil
               </Link>
             </li>
           )}
         </div>
-
         {currentUser ? (
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
@@ -106,7 +93,11 @@ const App = () => {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/profile" component={Profile} />
-          <Route path="/user" component={BoardUser} />
+          
+          <Route path="/posts/:id" component={Posts} />
+          <Route exact path="/add" component={AddPosts} />
+          <Route exact path="/com/:id" component={Comments} />
+          <Route exact path="/com" component={AddComments} />
           {/* <Route path="/mod" component={BoardModerator} />
           <Route path="/admin" component={BoardAdmin} /> */}
         </Switch>

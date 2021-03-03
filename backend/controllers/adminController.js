@@ -85,7 +85,7 @@ exports.deletePost = (req, res, next) => {
             id: req.params.id
           }
         })
-          .then(() => res.status(200).json({ message: 'Le profil a bien été modifiée !' }))
+          .then(() => res.status(200).json({ message: 'La publication a bien été modifiée !' }))
           .catch(error => console.log(error) || res.status(400).json({ error: "Une erreur est survenue dans la supression de la publication" }));
       });
   } else {
