@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PostDataService from "../services/posts.service";
 import { Link } from "react-router-dom";
 
@@ -6,16 +6,19 @@ import AuthService from "../services/auth.service";
 const currentUser = AuthService.getCurrentUser();
 
 
+
 const AddPost = () => {
 
   const initialPostState = {
-    
+
     id: null,
     title: "",
     content: "",
+    picture: "",
     userId: currentUser.userId,
     published: false
   };
+  
   const [post, setPost] = useState(initialPostState);
   const [submitted, setSubmitted] = useState(false);
 
@@ -29,7 +32,7 @@ const AddPost = () => {
       title: post.title,
       content: post.content,
       userId: post.userId,
-      //picture_post: post.picture_post
+      picture: post.picture,
     };
 
     PostDataService.create(data)
@@ -40,12 +43,16 @@ const AddPost = () => {
         });
         setSubmitted(true);
         console.log(response);
-        
+
       })
       .catch(e => {
         console.log(e);
       });
   };
+
+  
+
+ 
 
   const newPost = () => {
     setPost(initialPostState);
@@ -61,11 +68,11 @@ const AddPost = () => {
             Add
           </button>
           <button className="btn btn-success"><Link to={"/home"} className="nav-link">
-              Home
+            Home
             </Link></button>
         </div>
-        
-        
+
+
       ) : (
           <div>
             <div className="form-group">
@@ -93,8 +100,12 @@ const AddPost = () => {
                 name="content"
               />
             </div>
-
-            <div className="form-group">
+            <input type="file" onChange={handleInputChange}
+            id="picture"
+            name="picture"
+            value={post.picture}
+              accept="images/*" multiple />
+            {/* <div className="form-group">
               <label htmlFor="content">Picture</label>
               <input
                 type="text"
@@ -105,7 +116,7 @@ const AddPost = () => {
                 onChange={handleInputChange}
                 name="picture"
               />
-            </div>
+            </div> */}
 
             <button onClick={savePost} className="btn btn-success">
               Submit

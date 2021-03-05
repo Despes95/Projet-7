@@ -12,38 +12,46 @@ const fs = require('fs')
         userId: req.body.userId,
         title: req.body.title,
         content: req.body.content,
-        picture: req.file !== null ? "./uploads/posts/" + fileName : "", // pas sur que ca marche
+        picture: req.file !== null ? "../images/" + fileName : "", // pas sur que ca marche
     })
         .then(() => res.status(200).json({ message: 'La publication est en ligne' }))
         .catch(err => res.status(401).json({ error: "Une erreur est survenue lors de la mise en ligne" }));
 }; */
+
+
 exports.createPost = (req, res) => {
     if (req.file) {
-        req.body.picture = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`/* Creating the image URL */
+        req.body.picture = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } else {
         req.body.picture = null;
-    }
+    } 
     // Create post in database
-    Post.create({
-        userId: req.body.userId,
+    console.log(req.body)
+    const article = {
         title: req.body.title,
         content: req.body.content,
+        userId: req.body.userId,
         picture: req.body.picture
+    };
+    Post.create(article)
+    .then(data => {
+      res.send(data);
     })
-        .then(() => res.status(200).json({ message: 'La publication est en ligne' }))
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the post."
-            });
-        });
-};
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Article."
+      });
+    });
+}; 
+
+
 
 // Recuperation de toutes les Publications
 exports.getAllPosts = (req, res, next) => {
     Post.findAll({
         order: [['createdAt', 'DESC']], //affichage des messages par ordre décroissant
-        attributes: ['id', 'userId', 'title', 'content', 'createdAt', 'updatedAt'],
+        attributes: ['id', 'userId', 'title', 'content', 'picture', 'createdAt', 'updatedAt'],
         include: [User, Comments]
     })
         .then(posts => res.status(200).json(posts))

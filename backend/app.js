@@ -47,7 +47,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 //validate
 //Gestion image
 app.use('/images', express.static(path.join(__dirname, 'images')));
-
 //Routes
 app.use('/api/user', userRoutes);
 app.use('/api/posts', postRoutes);

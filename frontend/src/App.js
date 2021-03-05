@@ -96,8 +96,9 @@ const App = () => {
           
           <Route path="/posts/:id" component={Posts} />
           <Route exact path="/add" component={AddPosts} />
-          <Route exact path="/com/:id" component={Comments} />
-          <Route exact path="/com" component={AddComments} />
+          <Route exact path="/comments/:id" component={Comments} />
+          <Route exact path="/com/:id" component={HomeComments} />
+          <Route exact path="/new" component={AddComments} />
           {/* <Route path="/mod" component={BoardModerator} />
           <Route path="/admin" component={BoardAdmin} /> */}
         </Switch>
