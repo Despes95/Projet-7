@@ -54,7 +54,7 @@ const PostsList = () => {
           <div key={post.id} className="card-deck ">
             
             <div className="card">
-            <img className="card-img-top" src="..." alt="..."></img>
+            <img className="card-img-top" src={post.picture} alt="..."></img>
               <div key className="card-body">
               
                 <h5 className="card-title">{post.title}</h5>

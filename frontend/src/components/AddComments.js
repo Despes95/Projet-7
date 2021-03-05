@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import TutorialDataService from "../services/comments.service";
+import AuthService from "../services/auth.service";
+const currentUser = AuthService.getCurrentUser();
+const PostId = AuthService.getPostId();
+
+
 
 const AddTutorial = () => {
   const initialTutorialState = {
     
     id: null,
-    title: "",
     content: "",
-    userId: "",
-    published: false
+    postId: PostId,
+    userId: currentUser.userId,
   };
   const [tutorial, setTutorial] = useState(initialTutorialState);
   const [submitted, setSubmitted] = useState(false);
@@ -21,12 +25,18 @@ const AddTutorial = () => {
   const saveTutorial = () => {
     var data = {
       content: tutorial.content,
+      userId: tutorial.userId,
+      postId: tutorial.postId,
+      
     };
 
-    TutorialDataService.create(data)
+    console.log(tutorial)
+
+    TutorialDataService.createComment(data)
       .then(response => {
+        console.log(response)
         setTutorial({
-          content: response.data.content,
+          ...response.body
         });
         setSubmitted(true);
         console.log(response);
@@ -53,19 +63,6 @@ const AddTutorial = () => {
       ) : (
           <div>
             <div className="form-group">
-              <label htmlFor="title">Title</label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                required
-                value={tutorial.title}
-                onChange={handleInputChange}
-                name="title"
-              />
-            </div>
-
-            <div className="form-group">
               <label htmlFor="content">content</label>
               <input
                 type="text"
@@ -77,9 +74,12 @@ const AddTutorial = () => {
                 name="content"
               />
             </div>
-
-            <button onClick={saveTutorial} className="btn btn-success">
-              Submit
+            <button
+            type="submit"
+            className="badge badge-success"
+            onClick={saveTutorial}
+          >
+            Create
           </button>
           </div>
         )}

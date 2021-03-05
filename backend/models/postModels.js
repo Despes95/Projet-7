@@ -3,7 +3,7 @@ module.exports = (sequelize, Sequelize) => {
       userId: { type: Sequelize.INTEGER, allowNull: false},
       title: { type: Sequelize.STRING(255), allowNull: false },
       content: { type: Sequelize.TEXT, allowNull: false },
-      picture: { type: Sequelize.STRING, field:'picture_post'}
+      picture: { type: Sequelize.STRING, required: false}
    });
 
     return Post;

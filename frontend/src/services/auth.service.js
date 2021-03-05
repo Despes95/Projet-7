@@ -33,9 +33,14 @@ const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
 
+const getPostId = () => {
+  return JSON.parse(localStorage.getItem("postId"));
+};
+
 export default {
   register,
   login,
   logout,
   getCurrentUser,
+  getPostId,
 };
