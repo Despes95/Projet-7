@@ -37,16 +37,18 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
-  
+
 //validate
 
 // app.use
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
+
+//app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 //helmet
 //validate
 //Gestion image
-app.use('/images', express.static(path.join(__dirname, 'images')));
 //Routes
 app.use('/api/user', userRoutes);
 app.use('/api/posts', postRoutes);

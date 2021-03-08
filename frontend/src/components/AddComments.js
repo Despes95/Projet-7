@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import TutorialDataService from "../services/comments.service";
 import AuthService from "../services/auth.service";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Link } from "react-router-dom";
+
 const currentUser = AuthService.getCurrentUser();
 const PostId = AuthService.getPostId();
 
 
-
 const AddTutorial = () => {
   const initialTutorialState = {
-    
+
     id: null,
     content: "",
     postId: PostId,
@@ -27,19 +29,17 @@ const AddTutorial = () => {
       content: tutorial.content,
       userId: tutorial.userId,
       postId: tutorial.postId,
-      
+
     };
 
-    console.log(tutorial)
+    console.log(data)
 
     TutorialDataService.createComment(data)
       .then(response => {
-        console.log(response)
         setTutorial({
           ...response.body
         });
         setSubmitted(true);
-        console.log(response);
       })
       .catch(e => {
         console.log(e);
@@ -52,7 +52,7 @@ const AddTutorial = () => {
   };
 
   return (
-    <div className="submit-form">
+    <div className="container col-md-8">
       {submitted ? (
         <div>
           <h4>You submitted successfully!</h4>
@@ -61,7 +61,12 @@ const AddTutorial = () => {
           </button>
         </div>
       ) : (
-          <div>
+        <div>
+          <div >
+            <Link to={`/com/` + PostId} >
+              <FontAwesomeIcon icon="arrow-left" />
+            </Link>
+          </div>
             <div className="form-group">
               <label htmlFor="content">content</label>
               <input
@@ -81,8 +86,8 @@ const AddTutorial = () => {
           >
             Create
           </button>
-          </div>
-        )}
+        </div>
+      )}
     </div>
   );
 };

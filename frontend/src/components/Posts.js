@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PostsDataService from "../services/posts.service";
+import AuthService from "../services/auth.service";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Link } from "react-router-dom";
+
+const currentUser = AuthService.getCurrentUser();
+console.log(currentUser)
 
 const Posts = props => {
   const initialPostsState = {
@@ -88,6 +94,10 @@ const Posts = props => {
       });
   };
 
+  if (currentUser.userId && 1) {
+    console.log('c bon')
+
+  }
   const deleteAdmin = () => {
     PostsDataService.deleteAdmin(currentPosts.id)
       .then(response => {
@@ -103,83 +113,55 @@ const Posts = props => {
   return (
     <div>
       {currentPosts ? (
-        <div className="edit-form">
-          <h4>Posts</h4>
-          <form>
-            <div className="form-group">
-              <label htmlFor="title">Title</label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                name="title"
-                value={currentPosts.title}
-                onChange={handleInputChange}
-              />
+        <div className="card-group ">
+          <div >
+        <Link to={`/home/`} >
+          <FontAwesomeIcon icon="arrow-left" />
+        </Link>
+      </div>
+          <div className="card">
+            <h5 className="card-title">Title</h5>
+            <input
+              type="text"
+              className="form-control"
+              id="title"
+              name="title"
+              value={currentPosts.title}
+              onChange={handleInputChange}
+            />
+            <h5 className="card-text">Content</h5>
+            <input
+              type="text"
+              className="form-control"
+              id="content"
+              name="content"
+              value={currentPosts.content}
+              onChange={handleInputChange}
+            />
+            <div className="card-footer d-flex justify-content-around">
+              <Link onClick={updatePosts}>
+                <FontAwesomeIcon icon="edit" />
+              </Link>
+              <Link onClick={deletePosts}>
+                <FontAwesomeIcon icon="trash-alt" />
+              </Link>
             </div>
-            <div className="form-group">
-              <label htmlFor="content">content</label>
-              <input
-                type="text"
-                className="form-control"
-                id="content"
-                name="content"
-                value={currentPosts.content}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            {/*      <div className="form-group">
-              <label>
-                <strong>Status:</strong>
-              </label>
-              {currentPosts.published ? "Published" : "Pending"}
-            </div> */}
-          </form>
-
-          {/*      {currentPosts.published ? (
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => updatePublished(false)}
-            >
-              UnPublish
-            </button>
-          ) : (
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => updatePublished(true)}
-            >
-              Admin
-            </button>
-          )} */}
-
-          <button className="badge badge-danger mr-2" onClick={updateAdmin}>
-            update Admin
+            <button className="badge badge-danger mr-2" onClick={updateAdmin}>
+              update Admin
           </button>
 
-          <button className="badge badge-danger mr-2" onClick={deleteAdmin}>
-            delete Admin
+            <button className="badge badge-danger mr-2" onClick={deleteAdmin}>
+              delete Admin
           </button>
-
-          <button className="badge badge-success mr-2" onClick={deletePosts}>
-            Delete
-          </button>
-
-          <button
-            type="submit"
-            className="badge badge-success"
-            onClick={updatePosts}
-          >
-            Update
-          </button>
+          </div>
           <p>{message}</p>
         </div>
       ) : (
-          <div>
-            <br />
-            <p>Please click on a Posts...</p>
-          </div>
-        )}
+        <div>
+          <br />
+          <p>Please click on a Posts...</p>
+        </div>
+      )}
     </div>
   );
 };

@@ -36,7 +36,21 @@ label {
 }
 
 #vertical {
-  margin-bottom: -55px;
+  margin-bottom: -70px;
   writing-mode: vertical-rl;
   text-orientation: mixed;
+}
+
+#new {
+  margin-bottom: -90px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+#picture {
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5%;
+  max-width: 100%;
+  height: auto;
 }
