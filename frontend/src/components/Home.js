@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PostsDataService from "../services/posts.service";
 import { Link } from "react-router-dom";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import "../App.css"
+
 const PostsList = () => {
   const [posts, setPosts] = useState([]);
 
@@ -23,7 +24,7 @@ const PostsList = () => {
       });
   };
 
-  if (localStorage.length === 0) {
+  if (localStorage.getItem("user") === null) {
     return (
       <div className="container">
         <div className="text-center">
@@ -36,49 +37,41 @@ const PostsList = () => {
     )
   }
 
+
+
   return (
 
-    <div className="container col-md-8">
-      <div id="vertical" className="sticky-top">
-        <Link
-          to={"/add"} id="vertical"
-          className="badge badge-success"
-        >
-          New Post<br />
-        </Link>
-      </div>
+    <div className="container col-md-7">
+
       {
         posts.map((post) => (
 
-
-          <div key={post.id} className="card-deck ">
-            
+          <div key={post.id} className="card-group ">
+            <div>
+            </div>
             <div className="card">
-            <img className="card-img-top" src={post.picture} alt="..."></img>
+              <h5 className="card-title">{post.title}</h5>
+              <img id="picture" className="card-img-top" src={post.picture} alt=""></img>
               <div key className="card-body">
-              
-                <h5 className="card-title">{post.title}</h5>
+
+
                 <p className="card-text">{post.content}</p>
               </div>
               <div className="card-footer d-flex justify-content-between">
-                <small className="text-muted">@{post.user.pseudo}</small>
+                <small className="text-muted"><FontAwesomeIcon icon="user" /> {post.user.pseudo}</small>
                 <small className="text-muted"> {post.updatedAt}</small>
               </div>
               <div className="d-flex justify-content-around m-2">
-
-                <Link
-                  to={"/posts/" + post.id}
-                  className="badge badge-primary"
-                >
-                  modify
-                  </Link>
-              </div>
-              <Link
-                to={"/com/" + post.id}
-                className="badge badge-danger"
-              >
-                Commentez
+                <Link to={"/com/" + post.id} >
+                  <FontAwesomeIcon icon="comments" />
                 </Link>
+                <Link to={"/posts/" + post.id} >
+                  <FontAwesomeIcon icon="cog" />
+                </Link>
+                <Link to={"/add"} id="new"  >
+            <FontAwesomeIcon icon="plus-circle" /> 
+            </Link>
+              </div>
             </div>
           </div>
         ))}

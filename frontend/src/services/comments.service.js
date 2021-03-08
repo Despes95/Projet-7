@@ -5,11 +5,16 @@ import authHeader from "./auth-header";
 
 
 
-const getOneComment =postId => {
-  return http.get(`/comments/one/${postId}`, { headers: authHeader() });
+const getOneComment =id => {
+  console.log("commentaire du Post " + id)
+  return http.get(`/comments/one/${id}`, { headers: authHeader() });
 };
 
 const getComment = id => {
+  console.log("id du post " +id)
+  localStorage.setItem("postId", JSON.stringify(id));
+  console.log(localStorage)
+  //window.location.reload();
   return http.get(`/comments/all/${id}`, { headers: authHeader() });
 };
 
@@ -32,6 +37,8 @@ const updateCommentAdmin = (id, data) => {
 const deleteCommentAdmin = (id) => {
   return http.delete(`/comments/delete/${id}`, { headers: authHeader() });
 };
+
+
 
 
 export default {

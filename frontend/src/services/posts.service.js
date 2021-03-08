@@ -5,6 +5,7 @@ import authHeader from "./auth-header";
 
 
 const getAll = () => {
+  localStorage.removeItem("postId")
   return http.get("/posts", { headers: authHeader() });
 };
 
@@ -31,6 +32,7 @@ const updateAdmin = (id, data) => {
 const deleteAdmin = (id) => {
   return http.delete(`/posts/delete/${id}`, { headers: authHeader() });
 };
+
 
 export default {
   getAll,

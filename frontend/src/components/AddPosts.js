@@ -18,7 +18,6 @@ const AddPost = () => {
     userId: currentUser.userId,
     published: false
   };
-  
   const [post, setPost] = useState(initialPostState);
   const [submitted, setSubmitted] = useState(false);
 
@@ -27,15 +26,22 @@ const AddPost = () => {
     setPost({ ...post, [name]: value });
   };
 
+  const handleInputChangePicture = event => {
+    setPost({ ...post, picture: event.target.files[0] });
+  };
+
   const savePost = () => {
     var data = {
       title: post.title,
       content: post.content,
       userId: post.userId,
-      picture: post.picture,
     };
 
-    PostDataService.create(data)
+    let formData = new FormData()
+    formData.append('data', JSON.stringify(data))
+    formData.append('image', post.picture)
+
+    PostDataService.create(formData)
       .then(response => {
         setPost({
           ...response.body
@@ -50,9 +56,10 @@ const AddPost = () => {
       });
   };
 
-  
 
- 
+
+
+
 
   const newPost = () => {
     setPost(initialPostState);
@@ -74,38 +81,37 @@ const AddPost = () => {
 
 
       ) : (
-          <div>
-            <div className="form-group">
-              <label htmlFor="title">Title</label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                required
-                value={post.title}
-                onChange={handleInputChange}
-                name="title"
-              />
-            </div>
+        <div>
+          <div className="form-group">
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              className="form-control"
+              id="title"
+              required
+              value={post.title}
+              onChange={handleInputChange}
+              name="title"
+            />
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="content">content</label>
-              <input
-                type="text"
-                className="form-control"
-                id="content"
-                required
-                value={post.content}
-                onChange={handleInputChange}
-                name="content"
-              />
-            </div>
-            <input type="file" onChange={handleInputChange}
+          <div className="form-group">
+            <label htmlFor="content">content</label>
+            <input
+              type="text"
+              className="form-control"
+              id="content"
+              required
+              value={post.content}
+              onChange={handleInputChange}
+              name="content"
+            />
+          </div>
+          <input type="file" onChange={handleInputChangePicture}
             id="picture"
             name="picture"
-            value={post.picture}
-              accept="images/*" multiple />
-            {/* <div className="form-group">
+            accept="images/*" multiple />
+          {/* <div className="form-group">
               <label htmlFor="content">Picture</label>
               <input
                 type="text"
@@ -118,11 +124,11 @@ const AddPost = () => {
               />
             </div> */}
 
-            <button onClick={savePost} className="btn btn-success">
-              Submit
+          <button onClick={savePost} className="btn btn-success">
+            Submit
           </button>
-          </div>
-        )}
+        </div>
+      )}
     </div>
   );
 };

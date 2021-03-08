@@ -4,21 +4,6 @@ const User = db.user;
 const Comments = db.comment;
 const fs = require('fs')
 
-
-// Creation Publication
-/* exports.createPost = (req, res, next) => {
-    fileName = req.body.posterId + Date.now() + ".jpg"; // pas sur que ca marche
-    Post.create({
-        userId: req.body.userId,
-        title: req.body.title,
-        content: req.body.content,
-        picture: req.file !== null ? "../images/" + fileName : "", // pas sur que ca marche
-    })
-        .then(() => res.status(200).json({ message: 'La publication est en ligne' }))
-        .catch(err => res.status(401).json({ error: "Une erreur est survenue lors de la mise en ligne" }));
-}; */
-
-
 exports.createPost = (req, res) => {
     if (req.file) {
         req.body.picture = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -26,13 +11,15 @@ exports.createPost = (req, res) => {
         req.body.picture = null;
     } 
     // Create post in database
+    req.body.data = JSON.parse(req.body.data)
     console.log(req.body)
     const article = {
-        title: req.body.title,
-        content: req.body.content,
-        userId: req.body.userId,
+        title: req.body.data.title,
+        content: req.body.data.content,
+        userId: req.body.data.userId,
         picture: req.body.picture
     };
+    console.log(article)
     Post.create(article)
     .then(data => {
       res.send(data);
@@ -43,7 +30,7 @@ exports.createPost = (req, res) => {
           err.message || "Some error occurred while creating the Article."
       });
     });
-}; 
+};
 
 
 
