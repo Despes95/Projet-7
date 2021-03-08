@@ -31,12 +31,14 @@ exports.login = (req, res, next) => {
   })
     .then(user => {
       if (!user) {
-        return res.status(200).send({ errors: 'Email incorrect' })
+        return res.status(404).send({ message: 'Email incorrect' })
       }
       bcrypt.compare(req.body.password, user.password)
         .then(valid => {
           if (!valid) {
-            return res.status(200).json({ errors: 'Le mot de passe est incorrect !' });
+            return res.status(401).send({
+              message: "Invalid Password!"
+            });
           }
           //res.cookie('jwt', token, { httpOnly: true, maxAge });
           res.status(200).json({
@@ -51,7 +53,7 @@ exports.login = (req, res, next) => {
           });
         })
 
-    }).catch(error => res.status(400).json({ error: "Une erreur est survenue" }));
+    }).catch(error => res.status(400).json({ message: "Une erreur est survenue" }));
 };
 
 
