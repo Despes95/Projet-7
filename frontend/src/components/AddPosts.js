@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PostDataService from "../services/posts.service";
 import { Link } from "react-router-dom";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import AuthService from "../services/auth.service";
 const currentUser = AuthService.getCurrentUser();
 
@@ -69,17 +69,19 @@ const AddPost = () => {
   return (
     <div className="submit-form">
       {submitted ? (
-        <div>
-          <h4>You submitted successfully!</h4>
-          <button className="btn btn-success" onClick={newPost}>
-            Add
-          </button>
-          <button className="btn btn-success"><Link to={"/home"} className="nav-link">
-            Home
-            </Link></button>
+        <div >
+        <div className="text-center">
+          <h4>Votre Publication est en ligne</h4>
         </div>
-
-
+        <div className="d-flex justify-content-around">
+          <Link to={"/home"} >
+            <FontAwesomeIcon icon="arrow-left" />
+          </Link>
+          <div id="link" onClick={newPost}>
+            <FontAwesomeIcon icon="plus-circle" />
+          </div>
+        </div>
+      </div>
       ) : (
         <div>
           <div className="form-group">

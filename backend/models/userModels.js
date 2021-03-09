@@ -4,7 +4,6 @@ module.exports = (sequelize, Sequelize) => {
       pseudo: {type: Sequelize.STRING(50), allowNull: false, unique: true},
       email: {type: Sequelize.STRING(255), allowNull: false, unique: true},
       password: {type: Sequelize.STRING, allowNull: false},
-      //poste: {type: Sequelize.STRING(50), allowNull: false},
       isAdmin: {type: Sequelize.BOOLEAN, defaultValue:false},
     });
     

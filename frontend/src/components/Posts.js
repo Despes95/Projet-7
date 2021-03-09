@@ -56,25 +56,13 @@ const Posts = props => {
         console.log(e);
       });
   };
-  /*   const updateAdmin = () => {
-      PostsDataService.updateAdmin(currentPosts,)
-        .then(response => {
-          console.log(response.data);
-          setMessage("The Posts was updated successfully!");
-          props.history.push("/home");
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    }; */
-
 
   const updatePosts = () => {
     PostsDataService.update(currentPosts.id, currentPosts)
       .then(response => {
         console.log(response.data);
-        setMessage("The Posts was updated successfully!");
-        props.history.push("/home");
+        setMessage("La publication à bien été modifiée");
+        //props.history.push("/home");
       })
       .catch(e => {
         console.log(e);
@@ -94,10 +82,7 @@ const Posts = props => {
       });
   };
 
-  if (currentUser.userId && 1) {
-    console.log('c bon')
 
-  }
   const deleteAdmin = () => {
     PostsDataService.deleteAdmin(currentPosts.id)
       .then(response => {
@@ -112,13 +97,12 @@ const Posts = props => {
 
   return (
     <div>
-      {currentPosts ? (
         <div className="card-group ">
           <div >
-        <Link to={`/home/`} >
-          <FontAwesomeIcon icon="arrow-left" />
-        </Link>
-      </div>
+            <Link to={`/home/`} >
+              <FontAwesomeIcon icon="arrow-left" />
+            </Link>
+          </div>
           <div className="card">
             <h5 className="card-title">Title</h5>
             <input
@@ -139,29 +123,23 @@ const Posts = props => {
               onChange={handleInputChange}
             />
             <div className="card-footer d-flex justify-content-around">
-              <Link onClick={updatePosts}>
-                <FontAwesomeIcon icon="edit" />
-              </Link>
-              <Link onClick={deletePosts}>
-                <FontAwesomeIcon icon="trash-alt" />
-              </Link>
+              <div id="link" onClick={updatePosts}>
+              {currentUser.userId  === currentPosts.userId ?  <FontAwesomeIcon icon="edit" />: null}
+              </div>
+              <div id="link" onClick={deletePosts}>
+              {currentUser.userId  === currentPosts.userId ?  <FontAwesomeIcon icon="trash-alt" />: null}
+              </div>
             </div>
-            <button className="badge badge-danger mr-2" onClick={updateAdmin}>
+            {currentUser.userId == currentUser.isAdmin == true ? <button className="badge badge-danger mr-2" onClick={updateAdmin}>
               update Admin
-          </button>
+          </button> : null}
 
-            <button className="badge badge-danger mr-2" onClick={deleteAdmin}>
+            {currentUser.userId == currentUser.isAdmin === true ? <button className="badge badge-danger mr-2" onClick={deleteAdmin}>
               delete Admin
-          </button>
+          </button> : null}
+          <p className="text-center">{message}</p>
           </div>
-          <p>{message}</p>
         </div>
-      ) : (
-        <div>
-          <br />
-          <p>Please click on a Posts...</p>
-        </div>
-      )}
     </div>
   );
 };

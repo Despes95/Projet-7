@@ -3,6 +3,8 @@ import PostsDataService from "../services/posts.service";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import "../App.css"
+import AuthService from "../services/auth.service";
+const currentUser = AuthService.getCurrentUser();
 
 const PostsList = () => {
   const [posts, setPosts] = useState([]);
@@ -38,7 +40,6 @@ const PostsList = () => {
   }
 
 
-
   return (
 
     <div className="container col-md-7">
@@ -46,6 +47,7 @@ const PostsList = () => {
       {
         posts.map((post) => (
 
+          
           <div key={post.id} className="card-group ">
             <div>
             </div>
@@ -63,11 +65,12 @@ const PostsList = () => {
               </div>
               <div className="d-flex justify-content-around m-2">
                 <Link to={"/com/" + post.id} >
-                  <FontAwesomeIcon icon="comments" />
+                {/* { post.userId === post.id ?  */}<FontAwesomeIcon icon="comments" /> {/* : null} */} 
                 </Link>
                 <Link to={"/posts/" + post.id} >
-                  <FontAwesomeIcon icon="cog" />
-                </Link>
+                  {currentUser.userId  === post.userId || currentUser.isAdmin === true ?  <FontAwesomeIcon icon="cog" />: null} 
+              </Link>
+
                 <Link to={"/add"} id="new"  >
             <FontAwesomeIcon icon="plus-circle" /> 
             </Link>

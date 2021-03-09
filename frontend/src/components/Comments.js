@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import TutorialDataService from "../services/comments.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import AuthService from "../services/auth.service";
-
 import { Link } from "react-router-dom";
 const PostId = AuthService.getPostId()
+const currentUser = AuthService.getCurrentUser();
 
 
 const Tutorial = props => {
@@ -18,24 +18,8 @@ const Tutorial = props => {
 
 
   const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
+  const [message, setMessage] = useState("");
 
-
-  //const [currentTutorial, setCurrentTutorial] = useState([]);
-
-  /*   const retrievePosts = () => {
-      PostsDataService.getAll()
-        .then(response => {
-          setPosts(response.data);
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    };
-  
-    useEffect(() => {
-      retrievePosts();
-    }, []); */
 
   const getComment = postId => {
     TutorialDataService.getOneComment(postId)
@@ -47,6 +31,7 @@ const Tutorial = props => {
         console.log(e);
       });
   };
+
 
 
   useEffect(() => {
@@ -71,7 +56,7 @@ const Tutorial = props => {
       .then(response => {
         setCurrentTutorial({ ...currentTutorial });
         console.log(response.data);
-        props.history.push("/home");
+        props.history.push("/com/" + PostId);
       })
       .catch(e => {
         console.log(e);
@@ -83,7 +68,8 @@ const Tutorial = props => {
       .then(response => {
         setCurrentTutorial({ ...currentTutorial });
         console.log(response.data);
-        props.history.push(`/com/` + PostId);
+        setMessage("Le commentaire à bien été modifié");
+        //props.history.push(`/com/` + PostId);
       })
       .catch(e => {
         console.log(e);
@@ -105,25 +91,12 @@ const Tutorial = props => {
     TutorialDataService.deleteCommentAdmin(currentTutorial.id)
       .then(response => {
         console.log(response.data);
-        props.history.push("/home");
+        props.history.push(`/com/` + PostId);
       })
       .catch(e => {
         console.log(e);
       });
   };
-
-  /*   if (currentTutorial === undefined) {
-      return (
-        <div className="container">
-          <div className="text-center">
-            <div className="col">
-              <p>pas encore de commentaire</p>
-              <p>a vous de jouez</p>
-            </div>
-          </div>
-        </div>
-      )
-    } */
 
 
   return (
@@ -142,33 +115,32 @@ const Tutorial = props => {
             name="content"
             value={currentTutorial.content}
             onChange={handleInputChange}
+            required
           />
         </div>
         <div className="card-footer d-flex justify-content-around">
-
-          <Link onClick={updatePosts}>
-            <FontAwesomeIcon icon="edit" />
-          </Link>
-          <Link onClick={deletePosts}>
-            <FontAwesomeIcon icon="trash-alt" />
-          </Link>
+          <div id="link" onClick={updatePosts}>
+          {currentUser.userId  === currentTutorial.userId ?  <FontAwesomeIcon icon="edit" /> : null}
+          </div>
+          <div id="link" onClick={deletePosts}>
+            {currentUser.userId  === currentTutorial.userId ?  <FontAwesomeIcon icon="trash-alt" /> : null}
+          </div>
         </div>
-        <button
+        {currentUser.userId == currentUser.isAdmin === true ? <button
           type="submit"
           className="badge badge-success"
           onClick={updateAdmin}
         >
           update Admin
-          </button>
-        <button
+          </button> : null}
+          {currentUser.userId == currentUser.isAdmin === true ? <button
           type="submit"
           className="badge badge-danger"
           onClick={deleteAdmin}
         >
           delete Admin
-          </button>
-      </div>
-      <div className="d-flex justify-content-around m-2">
+          </button> : null}
+          <p className="text-center">{message}</p>
       </div>
     </div>
   );
