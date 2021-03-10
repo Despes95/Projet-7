@@ -11,10 +11,6 @@ const currentUser = AuthService.getCurrentUser();
 
 const CommentsList = props => {
   const [comments, setComments] = useState([]);
-  const [user, setUser] = useState([]);
-
-
-
 
   useEffect(() => {
     retrieveComments(props.match.params.id);
@@ -29,7 +25,6 @@ const CommentsList = props => {
 
           setComments(response.data);
           console.log(response.data)
-          setUser(response.data[0].user.pseudo);
           //window.location.reload();
         })
         .catch(e => {
