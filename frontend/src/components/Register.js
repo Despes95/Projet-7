@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { toast } from 'react-toastify';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -81,6 +82,8 @@ const Register = (props) => {
 
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.register(pseudo, email, password).then(
+        props.history.push("/login"),
+        toast.success('Bienvenue parmis nous'),
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);
@@ -103,12 +106,7 @@ const Register = (props) => {
   return (
     <div className="col-md-12">
       <div className="card card-container">
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
-        />
-
+      <img id="logoLogin" src="/images/test.png" />
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./components/FontawsomeIcons";
@@ -42,7 +44,7 @@ const App = () => {
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <Link to={"/"} className="navbar-brand">
-          Groupomania
+        <img id="logoNavbar" src="/images/icon-left-font-monochrome-white.png" />
         </Link>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
@@ -99,10 +101,11 @@ const App = () => {
           <Route exact path="/add" component={AddPosts} />
           <Route exact path="/comments/:id" component={Comments} />
           <Route exact path="/com/:id" component={HomeComments} />
-          <Route exact path="/new" component={AddComments} />
+          <Route exact path="/com/:id/new" component={AddComments} />
           {/* <Route path="/mod" component={BoardModerator} />
           <Route path="/admin" component={BoardAdmin} /> */}
         </Switch>
+        <ToastContainer />
       </div>
     </div>
   );
