@@ -82,7 +82,6 @@ exports.updatePost = (req, res, next) => {
         .catch(error => res.status(404).json({ error }));
 }
 
-
 // Supprimer une publication
 exports.deletePost = (req, res, next) => {
     Post.findOne({
@@ -91,18 +90,19 @@ exports.deletePost = (req, res, next) => {
             userId: req.userId
         }
     })
-        .then((post) => {
-            post.destroy({
-                where: {
-                    userId: req.userId,
-                    id: req.userId
-                }
-            })
-                .then(() => {
-                    res.status(201).json({ message: 'post supprimé' })
+        .then(post => {
+            const filename = post.picture.split("/images/")[1];
+            fs.unlink(`images/${filename}`, () => {
+                post.destroy({
+                    where: {
+                        userId: req.userId,
+                        id: req.userId
+                    }
                 })
-                .catch(error => res.status(404).json({ error }));
+                    .then(() => res.status(200).json({ message: "Sauce supprimée !" }))
+                    .catch(error => res.status(400).json({ error }));
+            });
         })
-        .catch(error => res.status(404).json({ error }));
+        .catch(error => res.status(500).json({ error }));
 }
 
