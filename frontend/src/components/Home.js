@@ -39,6 +39,22 @@ const PostsList = () => {
     )
   }
 
+  if (posts.length === 0) {
+    return (
+      <div className="container">
+        <div className="text-center">
+          <div className="col">
+            <p>Bienvenue A Groupomania</p>
+            <p>veuillez Faire la Premiere Publication</p>
+            <Link to={"/add"} >
+            <FontAwesomeIcon icon="plus-circle" />
+          </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
 
   return (
 
@@ -47,7 +63,7 @@ const PostsList = () => {
       {
         posts.map((post) => (
 
-          
+
           <div key={post.id} className="card-group ">
             <div>
             </div>
@@ -65,15 +81,15 @@ const PostsList = () => {
               </div>
               <div className="d-flex justify-content-around m-2">
                 <Link to={"/com/" + post.id} >
-                {/* { post.userId === post.id ?  */}<FontAwesomeIcon icon="comments" /> {/* : null} */} 
+                  {/* { post.userId === post.id ?  */}<FontAwesomeIcon icon="comments" /> {/* : null} */}
                 </Link>
                 <Link to={"/posts/" + post.id} >
-                  {currentUser.userId  === post.userId || currentUser.isAdmin === true ?  <FontAwesomeIcon icon="cog" />: null} 
-              </Link>
+                  {currentUser.userId === post.userId || currentUser.isAdmin === true ? <FontAwesomeIcon icon="cog" /> : null}
+                </Link>
 
                 <Link to={"/add"} id="new"  >
-            <FontAwesomeIcon icon="plus-circle" /> 
-            </Link>
+                  <FontAwesomeIcon icon="plus-circle" />
+                </Link>
               </div>
             </div>
           </div>

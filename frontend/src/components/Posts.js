@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from 'react-toastify';
 import PostsDataService from "../services/posts.service";
 import AuthService from "../services/auth.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -15,7 +16,6 @@ const Posts = props => {
     published: false
   };
   const [currentPosts, setCurrentPosts] = useState(initialPostsState);
-  const [message, setMessage] = useState("");
 
   const getPosts = id => {
     PostsDataService.get(id)
@@ -48,6 +48,7 @@ const Posts = props => {
   const updateAdmin = () => {
     PostsDataService.updateAdmin(currentPosts.id, data)
       .then(response => {
+        toast.success('la publication est modifié :)')
         setCurrentPosts({ ...currentPosts });
         console.log(response.data);
         props.history.push("/home");
@@ -60,9 +61,10 @@ const Posts = props => {
   const updatePosts = () => {
     PostsDataService.update(currentPosts.id, currentPosts)
       .then(response => {
+        toast.success('Votre publication est modifié :)')
         console.log(response.data);
-        setMessage("La publication à bien été modifiée");
-        //props.history.push("/home");
+        //setMessage("La publication à bien été modifiée");
+        props.history.push("/home");
       })
       .catch(e => {
         console.log(e);
@@ -74,6 +76,7 @@ const Posts = props => {
   const deletePosts = () => {
     PostsDataService.remove(currentPosts.id)
       .then(response => {
+        toast.success('Votre publication est supprimeé :)')
         console.log(response.data);
         props.history.push("/home");
       })
@@ -86,6 +89,7 @@ const Posts = props => {
   const deleteAdmin = () => {
     PostsDataService.deleteAdmin(currentPosts.id)
       .then(response => {
+        toast.success('La publication est supprimeé :)')
         console.log(response.data);
         props.history.push("/home");
       })
@@ -137,7 +141,6 @@ const Posts = props => {
             {currentUser.userId == currentUser.isAdmin === true ? <button className="badge badge-danger mr-2" onClick={deleteAdmin}>
               delete Admin
           </button> : null}
-          <p className="text-center">{message}</p>
           </div>
         </div>
     </div>

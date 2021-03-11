@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
+import { toast } from 'react-toastify';
 import TutorialDataService from "../services/comments.service";
 import AuthService from "../services/auth.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
 
 
 const currentUser = AuthService.getCurrentUser();
@@ -25,7 +25,9 @@ const required = (value) => {
 
 
 
-const AddTutorial = () => {
+const AddTutorial = (props) => {
+  const {id} = useParams();
+
   const form = useRef();
   const checkBtn = useRef();
 
@@ -33,11 +35,10 @@ const AddTutorial = () => {
 
     id: null,
     content: "",
-    postId: PostId,
+    postId: id,
     userId: currentUser.userId,
   };
   const [tutorial, setTutorial] = useState(initialTutorialState);
-  const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState("");
 
 
@@ -63,11 +64,14 @@ const AddTutorial = () => {
 
     console.log(data)
     if (checkBtn.current.context._errors.length === 0) {
-      setSubmitted(true)
+      toast.success('Votre commentaire est en ligne :)')
       TutorialDataService.createComment(data).then(
+        () => {
+          props.history.push(`/com/${id}`);
+        },
         (response) => {setTutorial({...response.body})
-
-      }, (error) => {
+      },
+      (error) => {
             const resMessage =
               (error.response &&
                 error.response.data &&
@@ -79,36 +83,10 @@ const AddTutorial = () => {
           }
         );
     };
-
-    
   };
-
-  const newTutorial = () => {
-    setTutorial(initialTutorialState);
-    setSubmitted(false);
-  };
-
-
 
   return (
     <div className="container col-md-8">
-
-      {submitted ? (
-        <div >
-          <div className="text-center">
-            <h4>Votre commentaire est en ligne</h4>
-          </div>
-          <div className="d-flex justify-content-between">
-            <Link to={`/com/` + PostId} >
-              <FontAwesomeIcon icon="arrow-left" />
-            </Link>
-            <div id="link" onClick={newTutorial}>
-              <FontAwesomeIcon icon="plus-circle" />
-            </div>
-          </div>
-        </div>
-
-      ) : (
         <Form onSubmit={saveTutorial} ref={form}>
           <div >
             <Link to={`/com/` + PostId} >
@@ -142,7 +120,6 @@ const AddTutorial = () => {
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
-      )}
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
+import { toast } from 'react-toastify';
 import PostDataService from "../services/posts.service";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import AuthService from "../services/auth.service";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -19,7 +18,7 @@ const required = (value) => {
   }
 }
 
-const AddPost = () => {
+const AddPost = (props) => {
   const form = useRef();
   const checkBtn = useRef();
 
@@ -34,7 +33,6 @@ const AddPost = () => {
   };
 
   const [post, setPost] = useState(initialPostState);
-  const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState("");
 
 
@@ -67,46 +65,31 @@ const AddPost = () => {
 
 
     if (checkBtn.current.context._errors.length === 0) {
-      setSubmitted(true)
+      toast.success('Votre publication est en ligne :)')
       PostDataService.create(formData, data).then(
-        (response) => {setPost({...response.body})
+        () => {
+          props.history.push("/home");
+        },
+        (response) => {
+          setPost({ ...response.body })
 
-      }, (error) => {
-            const resMessage =
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString();
-                
-            setMessage(resMessage);
-          }
-        );
+        }, (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+
+          setMessage(resMessage);
+        }
+      );
     };
   }
-  const newPost = () => {
-    setPost(initialPostState);
-    setSubmitted(false);
-  };
 
 
   return (
     <div className="submit-form">
-      {submitted ? (
-        <div >
-          <div className="text-center">
-            <h4>Votre Publication est en ligne</h4>
-          </div>
-          <div className="d-flex justify-content-around">
-            <Link to={"/home"} >
-              <FontAwesomeIcon icon="arrow-left" />
-            </Link>
-            <div id="link" onClick={newPost}>
-              <FontAwesomeIcon icon="plus-circle" />
-            </div>
-          </div>
-        </div>
-      ) : (
         <Form onSubmit={savePost} ref={form}>
           <div text='name'>
             <label htmlFor="title">Title</label>
@@ -147,7 +130,6 @@ const AddPost = () => {
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
-      )}
     </div>
   );
 };

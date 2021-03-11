@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CommentsDataService from "../services/comments.service";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import "../App.css"
 import AuthService from "../services/auth.service";
@@ -8,10 +8,10 @@ const currentUser = AuthService.getCurrentUser();
 
 
 
-
 const CommentsList = props => {
   const [comments, setComments] = useState([]);
-
+  const { id } = useParams();
+  console.log(id)
   useEffect(() => {
     retrieveComments(props.match.params.id);
   }, [props.match.params.id]);
@@ -20,16 +20,14 @@ const CommentsList = props => {
 
   const retrieveComments =
     id => {
-      CommentsDataService.getComment(id)
-        .then(response => {
-
+      CommentsDataService.getComment(id).then(
+        (response) => {
           setComments(response.data);
           console.log(response.data)
-          //window.location.reload();
-        })
-        .catch(e => {
-          console.log(e);
-        });
+        }
+      ).catch(e => {
+        console.log(e);
+      });
     };
 
 
@@ -46,7 +44,7 @@ const CommentsList = props => {
               <Link to={`/home`} >
                 <FontAwesomeIcon icon="arrow-left" />
               </Link>
-              <Link to={"/new"}>
+              <Link to={`/com/${id}/new`}>
                 <FontAwesomeIcon icon="plus-circle" />
               </Link>
             </div>
@@ -86,7 +84,7 @@ const CommentsList = props => {
                 {currentUser.userId === comment.userId || currentUser.isAdmin === true ? <FontAwesomeIcon icon="cog" /> : null}
 
               </Link>
-              <Link to={"/new"} >
+              <Link to={`/com/${id}/new`} >
                 <FontAwesomeIcon icon="plus-circle" />
               </Link>
 
