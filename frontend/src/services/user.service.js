@@ -15,10 +15,23 @@ const getAllPosts = () => {
   return axios.get(API_URL + "posts", { headers: authHeader() });
 };
 
+const deleteUser = (id) => {
+  return axios.delete(API_URL + `user/${id}`, { headers: authHeader() });
+}
 
+const deleteUserAdmin = (id) => {
+  return axios.delete(API_URL + `user/delete/${id}`, { headers: authHeader() });
+}
+
+const getAllUser = () => {
+  return axios.get(API_URL + `user/`, { headers: authHeader() });
+}
 
 export default {
   getPublicContent,
   getUserBoard,
   getAllPosts,
+  deleteUser,
+  getAllUser,
+  deleteUserAdmin,
 };

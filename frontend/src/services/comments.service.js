@@ -6,7 +6,7 @@ import authHeader from "./auth-header";
 
 
 const getOneComment =id => {
-  console.log("commentaire du Post " + id)
+  console.log("commentaire " + id)
   return http.get(`/comments/one/${id}`, { headers: authHeader() });
 };
 

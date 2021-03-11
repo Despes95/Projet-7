@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 const API_URL = "http://localhost:5000/api/user/";
 
@@ -26,6 +27,7 @@ const login = (email, password) => {
 };
 
 const logout = () => {
+  toast.success('A bientot')
   localStorage.removeItem("user");
   localStorage.removeItem("postId");
 
