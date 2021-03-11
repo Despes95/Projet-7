@@ -102,6 +102,7 @@ const App = () => {
           <Route exact path="/comments/:id" component={Comments} />
           <Route exact path="/com/:id" component={HomeComments} />
           <Route exact path="/com/:id/new" component={AddComments} />
+          <Route exact path="/user/delete/:id" component={Profile} />
           {/* <Route path="/mod" component={BoardModerator} />
           <Route path="/admin" component={BoardAdmin} /> */}
         </Switch>
