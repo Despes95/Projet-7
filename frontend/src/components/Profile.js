@@ -53,26 +53,38 @@ const Profile = (props) => {
 
 
 
-  
-  
+
+
 
   return (
-    <div className="container">
+    <div className="container text-center">
       <header className="jumbotron">
         <h3>
-          <strong>{currentUser.pseudo}</strong> Profile
+          <strong>Bienvenue {currentUser.pseudo}</strong>
         </h3>
       </header>
       <p>
-        <strong>Token:</strong> {currentUser.token.substring(0, 20)} ...{" "}
-        {currentUser.token.substr(currentUser.token.length - 20)}
+        Veuillez restez courtois, pas de contenue deplacée ou autre au sein de groupomania.
       </p>
       <p>
-        <strong>Id:</strong> {currentUser.userId}
+        <strong>Vous etes le numero:</strong> {currentUser.userId}
       </p>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+      <p>
+        <strong>Supprimer définitivement mon compte Goupomania ?</strong>
+      </p>
+
+      <p> Vos photos, vos publications et vos commentaire seront supprimées.</p>
+      <p>Vous ne pourrez pas réactiver votre compte.</p>
+      <p>Supression du compte</p>
       <div id="link" onClick={deleteUser}>
         <FontAwesomeIcon icon="trash-alt" />
       </div>
+
     </div>
   );
 
