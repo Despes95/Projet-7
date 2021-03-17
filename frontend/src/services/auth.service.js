@@ -19,7 +19,7 @@ const login = (email, password) => {
     })
     .then((response) => {
       if (response.data.token) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        sessionStorage.setItem("user", JSON.stringify(response.data));
       }
       console.log(response.data)
       return response.data;
@@ -28,14 +28,14 @@ const login = (email, password) => {
 
 const logout = () => {
   toast.success('A bientot')
-  localStorage.removeItem("user");
+  sessionStorage.removeItem("user");
   localStorage.removeItem("postId");
 
   
 };
 
 const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem("user"));
+  return JSON.parse(sessionStorage.getItem("user"));
 };
 
 
