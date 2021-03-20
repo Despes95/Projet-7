@@ -134,10 +134,11 @@ const Posts = props => {
               {currentUser.userId  === currentPosts.userId ?  <FontAwesomeIcon icon="trash-alt" />: null}
               </div>
             </div>
+            {/*  eslint-disable-next-line */}
             {currentUser.userId == currentUser.isAdmin == true ? <button className="badge badge-danger mr-2" onClick={updateAdmin}>
               update Admin
           </button> : null}
-
+          {/*  eslint-disable-next-line */}
             {currentUser.userId == currentUser.isAdmin === true ? <button className="badge badge-danger mr-2" onClick={deleteAdmin}>
               delete Admin
           </button> : null}

@@ -14,7 +14,6 @@ const getComment = id => {
   console.log("id du post " +id)
   localStorage.setItem("postId", JSON.stringify(id));
   console.log(localStorage)
-  //window.location.reload();
   return http.get(`/comments/all/${id}`, { headers: authHeader() });
 };
 

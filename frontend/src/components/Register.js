@@ -21,7 +21,7 @@ const validEmail = (value) => {
   if (!isEmail(value)) {
     return (
       <div className="alert alert-danger" role="alert">
-        This is not a valid email.
+        Ce n'est pas un Email valide.
       </div>
     );
   }
@@ -31,7 +31,7 @@ const vpseudo = (value) => {
   if (value.length < 3 || value.length > 20) {
     return (
       <div className="alert alert-danger" role="alert">
-        The pseudo must be between 3 and 20 characters.
+        le pseudo doit avoir entre 3 et 20 caractere.
       </div>
     );
   }
@@ -41,7 +41,7 @@ const vpassword = (value) => {
   if (value.length < 6 || value.length > 40) {
     return (
       <div className="alert alert-danger" role="alert">
-        The password must be between 6 and 40 characters.
+        le password doit avoir entre 6 and 40 caractere.
       </div>
     );
   }
@@ -106,7 +106,7 @@ const Register = (props) => {
   return (
     <div className="col-md-12">
       <div className="card card-container">
-      <img id="logoLogin" src="/images/test.png" />
+      <img id="logoLogin" src="/images/test.png" alt="logo" />
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>

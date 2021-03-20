@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import AuthService from "../services/auth.service";
 import UserService from "../services/user.service";
-import { Link } from "react-router-dom";
 
 
 const Profile = (props) => {
@@ -16,35 +15,23 @@ const Profile = (props) => {
         toast.success('Votre compte est supprimeé :)')
         console.log(response.data);
         AuthService.logout();
-        //props.history.push("/home");
       })
       .catch(e => {
         console.log(e);
       });
   };
 
-  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     getAllUser();
   }, []);
 
-  const deleteUserAdmin = () => {
-    UserService.deleteUserAdmin()
-      .then(response => {
-        toast.success('le compte est supprimeé :)')
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
+
 
   const getAllUser = () => {
     UserService.getAllUser()
       .then(response => {
         console.log(response.data[0].id);
-        setUsers(response.data)
       })
       .catch(e => {
         console.log(e);

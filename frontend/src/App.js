@@ -18,12 +18,8 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
 
-//import BoardModerator from "./components/BoardModerator";
-//import BoardAdmin from "./components/BoardAdmin";
 
 const App = () => {
-  //const [showModeratorBoard, setShowModeratorBoard] = useState(false);
-  //const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
@@ -31,8 +27,6 @@ const App = () => {
 
     if (user) {
       setCurrentUser(user);
-      //setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
-      //setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
     }
   }, []);
 
@@ -44,7 +38,7 @@ const App = () => {
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <Link to={"/"} className="navbar-brand">
-        <img id="logoNavbar" src="/images/icon-left-font-monochrome-white.png" />
+        <img id="logoNavbar" src="/images/icon-left-font-monochrome-white.png" alt="logo" />
         </Link>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
@@ -103,8 +97,6 @@ const App = () => {
           <Route exact path="/com/:id" component={HomeComments} />
           <Route exact path="/com/:id/new" component={AddComments} />
           <Route exact path="/user/delete/:id" component={Profile} />
-          {/* <Route path="/mod" component={BoardModerator} />
-          <Route path="/admin" component={BoardAdmin} /> */}
         </Switch>
         <ToastContainer />
       </div>

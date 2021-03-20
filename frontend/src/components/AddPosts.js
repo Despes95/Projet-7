@@ -47,7 +47,6 @@ const AddPost = (props) => {
 
   const savePost = (e) => {
     e.preventDefault();
-    //Prevent message clear them out
     setMessage("")
 
     var data = {

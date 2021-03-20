@@ -66,7 +66,7 @@ const Login = (props) => {
   return (
     <div className="col-md-12">
       <div className="card card-container">
-        <img id="logoLogin" src="/images/test.png" />
+        <img id="logoLogin" src="/images/test.png" alt="logo"/>
         <Form onSubmit={handleLogin} ref={form}>
           <div className="form-group">
             <label htmlFor="username">Username</label>
