@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
-import TutorialDataService from "../services/comments.service";
+import CommentDataService from "../services/comments.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import AuthService from "../services/auth.service";
 import { Link, useParams } from "react-router-dom";
-const PostId = AuthService.getPostId()
 const currentUser = AuthService.getCurrentUser();
 
 
-const Tutorial = props => {
+const  Comment = props => {
   const { id } = useParams();
   console.log(id)
 
-  const initialTutorialState = {
+  const initialCommentState = {
     id: null,
     postId: "",
     userId:"",
@@ -21,13 +20,13 @@ const Tutorial = props => {
   };
 
 
-  const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
+  const [currentComment, setCurrentComment] = useState(initialCommentState);
   const [curentPostId, SetCurentPostId]= useState();
 
   const getComment = postId => {
-    TutorialDataService.getOneComment(postId)
+    CommentDataService.getOneComment(postId)
       .then(response => {
-        setCurrentTutorial(response.data);
+        setCurrentComment(response.data);
         SetCurentPostId(response.data.postId);
         console.log(response.data.postId)
       })
@@ -46,22 +45,21 @@ const Tutorial = props => {
 
   const handleInputChange = event => {
     const { name, value } = event.target;
-    setCurrentTutorial({ ...currentTutorial, [name]: value });
+    setCurrentComment({ ...currentComment, [name]: value });
   };
 
   var data = {
-    //id: currentTutorial.id,
     postId: curentPostId,
-    content: currentTutorial.content,
+    content: currentComment.content,
   };
 
   console.log(data)
 
   const updateAdmin = () => {
-    TutorialDataService.updateCommentAdmin(currentTutorial.id, data)
+    CommentDataService.updateCommentAdmin(currentComment.id, data)
       .then(response => {
         toast.success('le commentaire est modifié :)')
-        setCurrentTutorial({ ...currentTutorial });
+        setCurrentComment({ ...currentComment });
         console.log(response.data);
         props.history.push("/com/" + curentPostId);
       })
@@ -71,14 +69,12 @@ const Tutorial = props => {
   };
 
   const updatePosts = () => {
-    TutorialDataService.updateComment(currentTutorial.id, data)
+    CommentDataService.updateComment(currentComment.id, data)
       .then(response => {
         toast.success('votre commentaire est modifié :)')
-        setCurrentTutorial({ ...currentTutorial });
+        setCurrentComment({ ...currentComment });
         props.history.push(`/com/` + curentPostId);
         console.log(response.data);
-        //setMessage("Le commentaire à bien été modifié");
-        //props.history.push(`/com/` + PostId);
       })
       .catch(e => {
         console.log(e);
@@ -86,7 +82,7 @@ const Tutorial = props => {
   };
 
   const deletePosts = () => {
-    TutorialDataService.removeComment(currentTutorial.id)
+    CommentDataService.removeComment(currentComment.id)
       .then(response => {
         toast.success('votre commentaire est suppimer :)')
         console.log(response.data);
@@ -98,7 +94,7 @@ const Tutorial = props => {
   };
 
   const deleteAdmin = () => {
-    TutorialDataService.deleteCommentAdmin(currentTutorial.id)
+    CommentDataService.deleteCommentAdmin(currentComment.id)
       .then(response => {
         toast.success('Le commentaire est suppimer :)')
         console.log(response.data);
@@ -124,19 +120,20 @@ const Tutorial = props => {
             className="form-control"
             id="content"
             name="content"
-            value={currentTutorial.content}
+            value={currentComment.content}
             onChange={handleInputChange}
             required
           />
         </div>
         <div className="card-footer d-flex justify-content-around">
           <div id="link" onClick={updatePosts}>
-            {currentUser.userId === currentTutorial.userId ? <FontAwesomeIcon icon="edit" /> : null}
+            {currentUser.userId === currentComment.userId ? <FontAwesomeIcon icon="edit" /> : null}
           </div>
           <div id="link" onClick={deletePosts}>
-            {currentUser.userId === currentTutorial.userId ? <FontAwesomeIcon icon="trash-alt" /> : null}
+            {currentUser.userId === currentComment.userId ? <FontAwesomeIcon icon="trash-alt" /> : null}
           </div>
         </div>
+        {/*  eslint-disable-next-line */}
         {currentUser.userId == currentUser.isAdmin === true ? <button
           type="submit"
           className="badge badge-success"
@@ -144,6 +141,7 @@ const Tutorial = props => {
         >
           update Admin
           </button> : null}
+          {/*  eslint-disable-next-line */}
         {currentUser.userId == currentUser.isAdmin === true ? <button
           type="submit"
           className="badge badge-danger"
@@ -156,4 +154,4 @@ const Tutorial = props => {
   );
 };
 
-export default Tutorial;
+export default Comment;
