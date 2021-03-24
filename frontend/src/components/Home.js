@@ -26,7 +26,7 @@ const PostsList = () => {
       });
   };
 
-  if (sessionStorage.getItem("user") === null) {
+  if (localStorage.getItem("user") === null) {
     return (
       <div className="container">
         <div className="text-center">
