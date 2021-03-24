@@ -5,6 +5,7 @@ const path = require('path');
 const app = express();
 const helmet = require('helmet');
 const cors = require('cors');
+const limiter = require("./middleware/express-limit");
 
 //Routes
 const db = require('./config/dbSql')
@@ -26,7 +27,7 @@ app.use((req, res, next) => {
   next();
 });
 
-
+app.use("/api/user", limiter);
 app.use(bodyParser.json());
 app.use(helmet());
 //app.use(bodyParser.urlencoded({ extended: true }));

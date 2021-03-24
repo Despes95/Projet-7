@@ -4,7 +4,6 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
-
 import AuthService from "../services/auth.service";
 
 const required = (value) => {
@@ -82,10 +81,11 @@ const Register = (props) => {
 
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.register(pseudo, email, password).then(
-        props.history.push("/login"),
-        toast.success('Bienvenue parmis nous'),
+        
+        //toast.success('Bienvenue parmis nous'),
         (response) => {
-          setMessage(response.data.message);
+          setMessage(response.message);
+          console.log(response)
           setSuccessful(true);
         },
         (error) => {
@@ -95,10 +95,10 @@ const Register = (props) => {
               error.response.data.message) ||
             error.message ||
             error.toString();
-
           setMessage(resMessage);
           setSuccessful(false);
         }
+        
       );
     }
   };
@@ -172,3 +172,5 @@ const Register = (props) => {
 };
 
 export default Register;
+
+

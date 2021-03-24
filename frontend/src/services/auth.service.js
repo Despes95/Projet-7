@@ -8,6 +8,9 @@ const register = (pseudo, email, password) => {
     pseudo,
     email,
     password,
+  })
+  .then((response) => {
+    return response.data;
   });
 };
 
@@ -31,7 +34,7 @@ const logout = () => {
   sessionStorage.removeItem("user");
   localStorage.removeItem("postId");
 
-  
+
 };
 
 const getCurrentUser = () => {
@@ -42,7 +45,7 @@ const getCurrentUser = () => {
 
 
 const getPostId = () => {
-return JSON.parse(localStorage.getItem("postId"));
+  return JSON.parse(localStorage.getItem("postId"));
 };
 
 export default {

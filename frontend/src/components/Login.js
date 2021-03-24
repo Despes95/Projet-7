@@ -3,6 +3,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import AuthService from "../services/auth.service";
+
 const required = (value) => {
   if (!value) {
     return (
@@ -69,7 +70,7 @@ const Login = (props) => {
         <img id="logoLogin" src="/images/test.png" alt="logo"/>
         <Form onSubmit={handleLogin} ref={form}>
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">Email</label>
             <Input
               type="text"
               className="form-control"
